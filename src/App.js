@@ -1,49 +1,55 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css"
 import { Component } from 'react';
 
 class App extends Component{
-  /* constructor(props){
-    super(props); */
-    /* this.handlePClick = this.handlePClick.bind(this);/* Passa o this para dentro do método */
-  state = {
-    name:  'Lucas Braz',
-    counter: 0
+  state = {/* Estado inicial */
+    posts: []
   };
-  /* } */
-
-  handlePClick = () => {
-    this.setState({name: 'Junião'});
+  
+  /* Ciclos de vida de components */
+  componentDidMount(){/* Ocorre depois da criação do componente em tela */
+    this.loadPosts();
   }
-
-  handleAClick = (event) => {/* arrow function busca o this no elemento pai */
-    event.preventDefault();
-    const {counter} = this.state;
-    console.log(counter)
-    this.setState({counter: counter+1});
+  /* 
+  componentDidUpdate(){ // Ocorre após a atualização do componente 
   }
+  componentWillUnmount(){// Limpa os lixos deixados do componente  
+  } */
+  
+  loadPosts = async () =>{
+    const postResponse = fetch("https://jsonplaceholder.typicode.com/posts");
+    const photoResponse = fetch("https://jsonplaceholder.typicode.com/photos");
+    
+    const [posts, photos] = await Promise.all([postResponse, photoResponse]);
+    
+    const postsJson = await posts.json();
+    const photoJson = await photos.json();
 
+    const postsAndPhotos = postsJson.map((post, index) => {
+      return{...post, cover: photoJson[index].url};
+    });
+
+    this.setState({posts: postsAndPhotos});
+  }
   render(){
-    const {name, counter} = this.state;
+    const {posts} = this.state;
 
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p onClick={this.handlePClick}>
-            {name} {counter}
-          </p>
-          <a
-            onClick={this.handleAClick}
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <section className="container">
+        <div className="posts">
+          {posts.map(post =>(
+            <div key={post.id} className="post">
+              <img src={post.cover} alt={post.title}/>
+              <div  className="post-content">
+        
+                <h1>{post.title}</h1>
+                <p>{post.body}</p>
+              </div>
+            </div>
+          )
+          )}
+        </div>
+        </section>
     );
   
   }
