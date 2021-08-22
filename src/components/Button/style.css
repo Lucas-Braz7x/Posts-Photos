@@ -1,0 +1,13 @@
+.button{
+  width: 100%;
+  background: linear-gradient(217deg, rgba(0,0,155,.8), rgba(0,0,205,.6) 70.71%, rgba(0,0,240,.4));
+  color: #fff;
+  border: none;
+  padding: 15px 30px;
+  cursor: pointer;
+}
+
+.button:disabled{
+  background: #FF0000;
+  cursor:crosshair;
+}
