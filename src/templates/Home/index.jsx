@@ -4,13 +4,15 @@ import { Component } from 'react';
 import { loadPosts } from "../../utils/load-posts";
 import { Posts } from "../../components/Posts";
 import { Button } from "../../components/Button";
+import { TextInput } from "../../components/TextInput";
 
 class Home extends Component{
   state = {/* Estado inicial */
     posts: [],
     allPosts: [],
     page: 0,
-    postsPerPages: 6
+    postsPerPages: 6,
+    searchValue: ''
   };
   
   /* Ciclos de vida de components */
@@ -37,7 +39,7 @@ class Home extends Component{
       page,
       postsPerPages,
       allPosts,
-      posts
+      posts,
     } = this.state;
     const nextPage = page + postsPerPages;
     const nextPosts = allPosts.slice(nextPage, nextPage + postsPerPages);
@@ -46,19 +48,40 @@ class Home extends Component{
     this.setState({posts, page: nextPage});
   }
 
+  handleChange = event =>{
+    const {value} = event.target;
+    this.setState({searchValue: value})
+  }
+
   render(){
-    const {posts, page, postsPerPages, allPosts} = this.state;
+    const {posts, page, postsPerPages, allPosts, searchValue} = this.state;
     const noMorePosts = page + postsPerPages >= allPosts.length? true : false;
+    const filterPosts = !!searchValue ? allPosts.filter(post =>{
+      return post.title.toLowerCase().includes(searchValue.toLowerCase())
+    }) : posts;
 
     return (
       <section className="container">
-       <Posts posts={posts}/>
+        <div className="searchInput">
+          {!!searchValue && <h1>Pesquisar: {searchValue}</h1>}{/* Se não Tiver não busca não renderiza */}
+          <TextInput searchValue={searchValue} handleChange={this.handleChange} />
+        </div>
+        {filterPosts.length > 0 && (
+           <Posts posts={filterPosts}/>
+        )}
+        {filterPosts.length === 0 && (
+           <p>Não tem mais kkkkk...</p>
+        )}
+      
        <div className="button-container">
-        <Button 
-        disabled={noMorePosts}
-        text="Load More Posts"
-        onClick={this.loadMorePosts}
-        />
+        {!searchValue && (/* Se tiver busca não renderiza */
+           <Button 
+           disabled={noMorePosts}
+           text="Load More Posts"
+           onClick={this.loadMorePosts}
+           />
+        )}
+       
        </div>
       </section>
     );
