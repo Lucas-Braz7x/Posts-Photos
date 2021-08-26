@@ -33,7 +33,7 @@ describe('<Button />', () =>{ //Agrupa ps testes
     expect(button).toBeDisabled();/* Espera que o button esteja desativado*/
   });
 
-  /* Deveria estar desativado quando disabled == true*/
+  /* Deveria estar ativado quando disabled == false*/
   it('should enabled when disabled is false', () => {//Inicia um teste
     render(<Button text="Load More" disabled={false}/>);//Renderiza um elemento
     const button = screen.getByRole('button', {name:/load more/i})//Captura um elemento renderizado pelo tipo e texto
