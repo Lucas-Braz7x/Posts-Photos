@@ -37,6 +37,14 @@ describe('<Posts />', () =>{
     expect(screen.getByRole('img', {name: /titulo 3/i}))
     .toHaveAttribute('src', 'img/img3.png');
   });
+  
+  it('should not render posts', () =>{
+    render(<Posts posts={[]}/>);
+
+    expect(screen.queryByRole('heading', {name: /titulo/}))
+      .not.toBeInTheDocument();
+  });
+
   it('should match snapshot', () =>{
     const {container} = render(<Posts posts={props.posts} />);
 
