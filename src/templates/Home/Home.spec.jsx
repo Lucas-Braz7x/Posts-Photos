@@ -7,8 +7,8 @@ import App from './Home';
   expect(linkElement).toBeInTheDocument();
 });
  */
-describe('<Home />', () =>{
+describe('<Home />', () => {
   it('is a Dummy test', () => {
     expect(1).toBe(1);
   });
-})
+});

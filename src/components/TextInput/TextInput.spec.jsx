@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {TextInput} from '.';
+import { TextInput } from '.';
 /* 
 const props = {
   posts: [
@@ -25,30 +25,30 @@ const props = {
   ]
 } 
  */
-describe('<TextInput />', () =>{
-  it('should have a value of searchValue', () =>{
+describe('<TextInput />', () => {
+  it('should have a value of searchValue', () => {
     const fn = jest.fn();
-    render(<TextInput handleChange={fn} searchValue={'testando'}/>);
-  
+    render(<TextInput handleChange={fn} searchValue={'testando'} />);
+
     const input = screen.getByPlaceholderText(/Digite o que você procura/i);
     expect(input).toBeInTheDocument();
-    expect(input.value).toBe('testando')
+    expect(input.value).toBe('testando');
   });
 
-  it('should call handleChange function on each key pressed', () =>{
+  it('should call handleChange function on each key pressed', () => {
     const fn = jest.fn();
-    render(<TextInput handleChange={fn}/>);
+    render(<TextInput handleChange={fn} />);
 
     const input = screen.getByPlaceholderText(/Digite o que você procura/i);
     const value = 'o valor';
 
-    userEvent.type(input, value);/* Verifica se o valor do input é igual ao valor esperado */
-    expect(fn).toHaveBeenCalledTimes(value.length);/* Verifica se fn foi chamado de acordo com o tamanho de value */
+    userEvent.type(input, value); /* Verifica se o valor do input é igual ao valor esperado */
+    expect(fn).toHaveBeenCalledTimes(value.length); /* Verifica se fn foi chamado de acordo com o tamanho de value */
   });
-  it('should match snapshot', () =>{
+  it('should match snapshot', () => {
     const fn = jest.fn();
-    const {container} = render(<TextInput handleChange={fn} />);
+    const { container } = render(<TextInput handleChange={fn} />);
 
     expect(container.firstChild).toMatchSnapshot();
-  }); 
+  });
 });
