@@ -2,6 +2,7 @@ import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { render, screen, waitForElementToBeRemoved } from '@testing-library/react';
 import { Home } from '.';
+import userEvent from '@testing-library/user-event';
 
 const handlers = [
   /* Cria um mini servidor para olhar as requisições */
@@ -25,7 +26,7 @@ const handlers = [
         {
           userId: 2,
           id: 2,
-          title: 'title2',
+          title: 'title3',
           body: 'body2',
           img: 'img3.jpg',
         },
@@ -66,5 +67,34 @@ describe('<Home />', () => {
 
     const button = screen.getByRole('button', { name: 'Load More Posts' });
     expect(button).toBeInTheDocument();
+  });
+  it('should search for posts', async () => {
+    render(<Home />);
+    const noMorePosts = screen.getByText('Não existe post com essa informação');
+
+    expect.assertions(10);
+
+    await waitForElementToBeRemoved(noMorePosts);
+
+    const search = screen.getByPlaceholderText('Digite o que você procura');
+    expect(screen.getByRole('heading', { name: 'title1' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'title2' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'title3' })).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'title4' })).not.toBeInTheDocument();
+
+    userEvent.type(search, 'title1'); //Digita title1 no input
+    expect(screen.getByRole('heading', { name: 'title1' })).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'title2' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'title3' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'title4' })).not.toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Pesquisar: title1' })).toBeInTheDocument();
+
+    userEvent.clear(search); //Limpa a tela
+    expect(screen.getByRole('heading', { name: 'title1' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'title2' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'title3' })).toBeInTheDocument();
+
+    userEvent.type(search, 'blabla'); //Limpa a tela
+    expect(screen.getByText('Não existe post com essa informação')).toBeInTheDocument();
   });
 });
