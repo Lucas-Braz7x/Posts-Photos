@@ -59,32 +59,32 @@ export const Home = () => {
 
       <div className="button-container">
         {!searchValue /* Se tiver busca não renderiza */ && (
-          <Button disabled={noMorePosts} text="Load More Posts" onClick={loadMorePosts} />
+          <Button disabled={noMorePosts} name="Load More Posts" text="Load More Posts" onClick={loadMorePosts} />
         )}
       </div>
     </section>
   );
 };
-/* 
+/*
 class Home2 extends Component{
-  state = {// Estado inicial 
+  state = {// Estado inicial
     posts: [],
     allPosts: [],
     page: 0,
     postsPerPages: 6,
     searchValue: ''
   };
-  
-   Ciclos de vida de components 
-  async componentDidMount(){// Ocorre depois da criação do componente em tela 
+
+   Ciclos de vida de components
+  async componentDidMount(){// Ocorre depois da criação do componente em tela
     await this.loadPosts();
   }
-  
-  componentDidUpdate(){ // Ocorre após a atualização do componente 
+
+  componentDidUpdate(){ // Ocorre após a atualização do componente
   }
-  componentWillUnmount(){// Limpa os lixos deixados do componente  
-  } 
-  
+  componentWillUnmount(){// Limpa os lixos deixados do componente
+  }
+
   loadPosts = async () =>{
     const {page, postsPerPages} = this.state;
     const postsAndPhotos = await loadPosts();
@@ -132,20 +132,20 @@ class Home2 extends Component{
         {filterPosts.length === 0 && (
            <p>Não existe post com essa informação</p>
         )}
-      
+
        <div className="button-container">
-        {!searchValue && (// Se tiver busca não renderiza 
-           <Button 
+        {!searchValue && (// Se tiver busca não renderiza
+           <Button
            disabled={noMorePosts}
            text="Load More Posts"
            onClick={this.loadMorePosts}
            />
         )}
-       
+
        </div>
       </section>
     );
-  
+
   }
 }
 export default Home; */
