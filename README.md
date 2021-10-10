@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# Posts&Photos
 
 O projeto consiste em carregar posts e photos da [API {JSON} Placeholder](https://jsonplaceholder.typicode.com/) e filtrar os posts através de um input. O projeto foi criado para praticar as funcionalidades do react e para praticar
 a escrita de testes.
@@ -21,4 +21,4 @@ a escrita de testes.
 
 # Link da Aplicação:
 
-[Posts&Photos](https://app.netlify.com/sites/postsandphotos/settings/domain)
+## [Posts&Photos](https://app.netlify.com/sites/postsandphotos/settings/domain)
